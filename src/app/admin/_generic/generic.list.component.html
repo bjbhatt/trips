@@ -1,0 +1,47 @@
+<div [hidden]="dataSource">
+    <mat-progress-bar mode="query"></mat-progress-bar>
+</div>
+<div [hidden]="!dataSource">
+    <div class="list-header">
+        <button mat-raised-button (click)="openEditDialog()">Add New</button>
+        <mat-form-field>
+            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+        </mat-form-field>
+    </div>
+
+    <div class="list-container mat-elevation-z8">
+
+        <mat-table [dataSource]="dataSource" matSort>
+
+            <ng-container *ngFor="let column of columns" [matColumnDef]="column['name']">
+                <template *ngIf="column['sortable']">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> {{column['header']}} </mat-header-cell>
+                </template>
+                <template *ngIf="!column['sortable']">
+                    <mat-header-cell *matHeaderCellDef> {{column['header']}} </mat-header-cell>
+                </template>
+                <template *ngIf="column['date']">
+                    <mat-cell *matCellDef="let row">
+                        <a *ngIf="column['edit']" routerLink="." (click)="openEditDialog(row[keyField])">{{row[column['name']] | date: 'MM/dd/yyyy'}}</a>
+                        <span *ngIf="!column['edit'] && !column['delete'] && !column['key'] && !column['parentKey']">{{row[column['name']] | date: 'MM/dd/yyyy'}}</span>
+                        <button *ngIf="column['delete']" mat-button color="warn" (click)="openDeleteDialog(row[keyField])">Delete</button>
+                    </mat-cell>
+                </template>
+                <template *ngIf="!column['date']">
+                    <mat-cell *matCellDef="let row">
+                        <a *ngIf="column['edit']" routerLink="." (click)="openEditDialog(row[keyField])">{{row[column['name']]}}</a>
+                        <span *ngIf="!column['edit'] && !column['delete'] && !column['key'] && !column['parentKey']">{{row[column['name']]}}</span>
+                        <button *ngIf="column['delete']" mat-button color="warn" (click)="openDeleteDialog(row[keyField])">Delete</button>
+                    </mat-cell>
+                </template>
+            </ng-container>
+
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;">
+            </mat-row>
+        </mat-table>
+
+        <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+    </div>
+
+</div>

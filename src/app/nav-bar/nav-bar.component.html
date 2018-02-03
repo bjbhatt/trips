@@ -1,0 +1,13 @@
+<mat-toolbar color="primary">
+  <span>TRIPS</span>
+  <span class="example-spacer"></span>
+  <button mat-button class="example-icon" [matMenuTriggerFor]="menu">Adminstration</button>
+  <mat-menu #menu="matMenu">
+    <a mat-menu-item routerLink="/planned-trips">Planned Trips</a>
+    <a mat-menu-item routerLink="/admin/divisions">Division Management</a>
+    <a mat-menu-item routerLink="/admin/branches">Branch Management</a>
+    <a mat-menu-item routerLink="/admin/cans">CAN Management</a>
+    <a mat-menu-item routerLink="/admin/can-allocations">CAN Allocation Management</a>
+    <a mat-menu-item routerLink="/admin/user-roles">User Role Management</a>
+  </mat-menu>
+</mat-toolbar>

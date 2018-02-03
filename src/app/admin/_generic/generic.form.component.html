@@ -1,0 +1,23 @@
+<div [hidden]="showForm">
+    <h4 mat-dialog-title>{{objectType}} (loading)</h4>
+    <mat-progress-bar mode="query"></mat-progress-bar>
+</div>
+<div [hidden]="!showForm">
+    <form class="form-container" [formGroup]="form" (ngSubmit)="save()">
+        <h4 mat-dialog-title>{{objectType}} ({{ action }})</h4>
+
+        <mat-form-field *ngFor="let fc of editableFormControls">
+            <input *ngIf="fc.type == 'text'" matInput [placeholder]="fc.label" [formControlName]="fc.name">
+            <input *ngIf="fc.type == 'date'" matInput [placeholder]="fc.label" [formControlName]="fc.name">
+            <input *ngIf="fc.type == 'boolean'" matInput [placeholder]="fc.label" [formControlName]="fc.name">
+            <span matPrefix *ngIf="fc.matPrefix">{{fc.matPrefix}}</span>
+            <span matSuffix *ngIf="fc.matSuffix">{{fc.matSuffix}}</span>
+            <mat-error *ngIf="getControl(fc.name).touched && getControl(fc.name).invalid">{{getErrorMessage(fc.name)}}</mat-error>
+        </mat-form-field>
+
+        <div>
+            <button mat-raised-button color="primary" [disabled]="!form.valid">{{ action }}</button>
+            <button mat-button [mat-dialog-close]="null">Cancel</button>
+        </div>
+    </form>
+</div>
